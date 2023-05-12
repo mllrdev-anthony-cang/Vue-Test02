@@ -1,27 +1,27 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { useRoute, useRouter, RouterLink } from 'vue-router'
 import { useFetch } from '../composables/useFetch.js'
 
 const router = useRouter()
 const route = useRoute()
-
 const pageNumber = ref(Number(route.query.pageNumber))
+const url = `https://dummyjson.com/posts?skip=${Number(pageNumber.value)*10}&limit=10`
 
-const url = computed(() => {
-  const skip = Number(pageNumber.value) * 10
+function navigatePage(isNext = true) {
+  pageNumber.value = isNext ? pageNumber.value  < 10 ? pageNumber.value+1 : (pageNumber.value  = 10)
+                            : pageNumber.value > 1 ? pageNumber.value-1 : (pageNumber.value = 1)
   router.push({ name: 'posts', query: { pageNumber: pageNumber.value } })
-  return `https://dummyjson.com/posts?skip=${skip}&limit=10`
-})
+}
 
 const { data, error } = useFetch(url)
 </script>
 
 <template>
   <div class="c-main" v-if="data">
-    Page: <button @click="pageNumber > 1 ? pageNumber-- : (pageNumber = 1)">Previous</button>
+    Page: <button @click="navigatePage(false)">Previous</button>
     <input type="number" v-model="pageNumber" min="0" max="10" readonly />
-    <button n @click="pageNumber < 10 ? pageNumber++ : (pageNumber = 10)">next</button>
+    <button n @click="navigatePage()">Next</button>
     <h1>Post List:</h1>
     <nav>
       <ul>
