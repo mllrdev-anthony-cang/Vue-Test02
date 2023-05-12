@@ -14,7 +14,7 @@ const url = computed(() => {
   return `posts?skip=${skip}&limit=10`
 })
 
-const { data } = fetchDummy(url.value).get().json()
+const { data } = fetchDummy(url).get().json()
 </script>
 
 <template>

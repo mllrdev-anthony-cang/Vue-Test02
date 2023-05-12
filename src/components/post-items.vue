@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
 import { fetchDummy } from '../composables/fetchDummy'
-import CommentList from './comment-list.vue'
+import CommentList from './comment-lists.vue'
 
 const route = useRoute()
 const { data } = fetchDummy(`post/${route.query.postId}`).get().json()
