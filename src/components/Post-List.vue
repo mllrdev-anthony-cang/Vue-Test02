@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useRoute, useRouter, RouterLink } from 'vue-router'
-import { fetchDummy } from '../composables/fetchDummy.js'
+import { fetchDummy } from '../composables/fetchDummy'
 
 const router = useRouter()
 const route = useRoute()
@@ -14,7 +14,7 @@ const url = computed(() => {
   return `posts?skip=${skip}&limit=10`
 })
 
-const { data } = fetchDummy(url).get().json()
+const { data } = fetchDummy(url.value).get().json()
 </script>
 
 <template>

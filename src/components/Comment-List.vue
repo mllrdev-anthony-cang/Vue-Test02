@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { fetchDummy } from '../composables/fetchDummy.js'
+import { fetchDummy } from '../composables/fetchDummy'
 
 const route = useRoute()
 const { data } = fetchDummy(`comments/post/${route.query.postId}`).get().json()

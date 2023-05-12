@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import PostList from '../components/Post-list.vue'
+import PostList from '../components/post-list.vue'
 import { useRoute } from 'vue-router'
-import PostItem from '../components/Post-Item.vue'
+import PostItem from '../components/post-item.vue'
 const route = useRoute()
 
 </script>
