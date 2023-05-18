@@ -1,22 +1,34 @@
 <script setup lang="ts">
 import { useRoute, useRouter, RouterLink } from 'vue-router'
-import { paginationNav } from '../composables/paginationNav.js'
+import { useGetPosts } from '../composables/useGetPost'
 
 const router = useRouter()
 const route = useRoute()
-paginationNav.pageNumber = Number(route.query.pageNumber)
-paginationNav.getData()
+
+const { data, error, page, nextPage, previousPage } = useGetPosts(
+  Number(route.query.pageNumber) || 1
+)
+
+function navigate(isNext = true) {
+  if (isNext) {
+    nextPage()
+  } else {
+    previousPage()
+  }
+
+  router.push({ query: { pageNumber: page.value } })
+}
 </script>
 
 <template>
-  <div class="c-main" v-if="paginationNav.data">
-    Page: <button @click="paginationNav.previousPageNumber();router.push({query: {pageNumber: paginationNav.pageNumber}})">Previous</button>
-    <input type="number" v-model="paginationNav.pageNumber" min="0" max="10" readonly />
-    <button @click="paginationNav.nextPageNumber();router.push({query: {pageNumber: paginationNav.pageNumber}})">Next</button>
+  <div class="c-main" v-if="data">
+    Page: <button @click="navigate(false)">Previous</button>
+    <input type="number" v-model="page" min="0" max="10" readonly />
+    <button @click="navigate()">Next</button>
     <h1>Post List:</h1>
     <nav>
       <ul>
-        <li v-for="post in paginationNav.data.posts">
+        <li v-for="post in data.posts">
           <RouterLink :to="{ name: 'post-item', query: { postId: post.id } }">
             {{ post.title }}
           </RouterLink>
@@ -24,8 +36,8 @@ paginationNav.getData()
       </ul>
     </nav>
   </div>
-  <div v-else-if="paginationNav.error">
-    <p>Oops! Error encountered: {{ paginationNav.error.message }}</p>
+  <div v-else-if="error">
+    <p>Oops! Error encountered: {{ error.message }}</p>
   </div>
   <div v-else>Loading...</div>
 </template>

@@ -13,12 +13,12 @@ import HelloWorld from './components/hello-world.vue'
       <nav>
         <RouterLink :to="{name: 'home'}">Home</RouterLink>
         <RouterLink :to="{name: 'about'}">About</RouterLink>
-        <RouterLink :to="{name: 'posts', query: { pageNumber: 1 }}">Posts</RouterLink>
+        <RouterLink :to="{name: 'posts'}">Posts</RouterLink>
       </nav>
     </div>
   </header>
 
-  <RouterView :key="$route.fullPath"/>
+  <RouterView/>
 </template>
 
 <style scoped>
